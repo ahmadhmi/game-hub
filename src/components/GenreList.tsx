@@ -1,4 +1,12 @@
-import { Button, HStack, Image, List, ListItem, Text } from "@chakra-ui/react";
+import {
+  Button,
+  Heading,
+  HStack,
+  Image,
+  List,
+  ListItem,
+  Text,
+} from "@chakra-ui/react";
 import useGenre, { Genre } from "../hooks/useGenres";
 import getCroppedImageUrl from "../services/image-url";
 import GenreSkeleton from "./GenreSkeleton";
@@ -17,30 +25,38 @@ const GenreList = ({ onGenreSelected, selectedGenre }: Props) => {
 
   if (error) return null;
   return (
-    <List>
-      {isLoading && skeletons.map((s) => <GenreSkeleton key={s} />)}
-      {data.map((genre) => (
-        <ListItem paddingY={"5px"} key={genre.id}>
-          <HStack>
-            <Image
-              boxSize={"32px"}
-              borderRadius={8}
-              src={getCroppedImageUrl(genre.image_background)}
-            />
-            <Button
-              onClick={() => {
-                onGenreSelected(genre);
-              }}
-              fontWeight={genre.id === selectedGenre?.id ? "medium" : "normal" }
-              fontSize={"lg"}
-              variant={"link"}
-            >
-              {genre.name}
-            </Button>
-          </HStack>
-        </ListItem>
-      ))}
-    </List>
+    <>
+      <Heading fontSize={"2xl"} marginBottom={3} >Genres</Heading>
+      <List>
+        {isLoading && skeletons.map((s) => <GenreSkeleton key={s} />)}
+        {data.map((genre) => (
+          <ListItem paddingY={"5px"} key={genre.id}>
+            <HStack>
+              <Image
+                boxSize={"32px"}
+                borderRadius={8}
+                src={getCroppedImageUrl(genre.image_background)}
+              />
+              <Button
+                onClick={() => {
+                  onGenreSelected(genre);
+                }}
+                objectFit={"cover"}
+                whiteSpace={"normal"}
+                textAlign={"left"}
+                fontWeight={
+                  genre.id === selectedGenre?.id ? "medium" : "normal"
+                }
+                fontSize={"lg"}
+                variant={"link"}
+              >
+                {genre.name}
+              </Button>
+            </HStack>
+          </ListItem>
+        ))}
+      </List>
+    </>
   );
 };
 
